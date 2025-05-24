@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Central de Regulação - Secretaria de Saúde de Cariré</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; margin: 0; padding: 0; background-color: #f4f6f8; color: #333; }
+        header { background-color: #2e7d32; color: #fff; padding: 20px; text-align: center; }
+        main { max-width: 1200px; margin: 30px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h2, h3 { margin-top: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; font-size: 14px; }
+        th { background-color: #e8f5e9; }
+        input, select { padding: 10px; width: calc(50% - 10px); margin: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .info-box { background: #f1f8f2; padding: 15px; border-left: 4px solid #2e7d32; margin-bottom: 20px; }
+        .tag { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; color: #fff; }
+        .tag-alta { background-color: #d32f2f; }
+        .tag-media { background-color: #fbc02d; color: #000; }
+        .tag-baixa { background-color: #388e3c; }
+        .tag-consulta { background-color: #1976d2; }
+        footer { text-align: center; padding: 15px; font-size: 0.9em; color: #777; }
+        @media (max-width: 600px) {
+            input, select { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>Fila de Espera de Consultas - Prefeitura de Cariré</h2>
+    </header>
+    <main>
+        <div class="info-box">
+            <h3>Resumo</h3>
+            <p><strong>Número total de pacientes:</strong> 50</p>
+            <p><strong>Tempo médio de espera:</strong> 30 dias (Cardiologia), 20 dias (Dermatologia), 15 dias (Ortopedia)</p>
+            <p><strong>Critérios de priorização:</strong> Emergências médicas, idosos, gestantes, pacientes com doenças crônicas</p>
+            <p><strong>Última atualização:</strong> 24/05/2025</p>
+            <p><strong>Canal de contato:</strong> (88) 99999-0000 | saude@carire.ce.gov.br</p>
+        </div>
+
+        <input type="text" id="filtroNome" onkeyup="filtrarTabela()" placeholder="Filtrar por nome do paciente...">
+        <select id="filtroUnidade" onchange="filtrarTabela()">
+            <option value="">Todas as Unidades</option>
+            <option value="Centro de Referencia a Saude da Mulher">Centro de Referencia a Saude da Mulher</option>
+            <option value="Centro de Saude da Familia de Almas">Centro de Saude da Familia de Almas</option>
+            <option value="Hospital Municipal de Carire">Hospital Municipal de Carire</option>
+        </select>
+
+        <table id="tabelaPacientes">
+            <thead>
+                <tr>
+                    <th>Nome do Paciente</th>
+                    <th>Unidade de Saúde</th>
+                    <th>Especialidade</th>
+                    <th>Data de Solicitação</th>
+                    <th>Prioridade</th>
+                    <th>Nº Protocolo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>M*** S****</td>
+                    <td>Centro de Referencia a Saude da Mulher</td>
+                    <td><span class="tag tag-consulta">Cardiologia</span></td>
+                    <td>10/05/2025</td>
+                    <td><span class="tag tag-alta">Alta</span></td>
+                    <td>PRT00123</td>
+                </tr>
+                <tr>
+                    <td>J**** S*****</td>
+                    <td>Centro de Saude da Familia de Almas</td>
+                    <td><span class="tag tag-consulta">Dermatologia</span></td>
+                    <td>12/05/2025</td>
+                    <td><span class="tag tag-media">Média</span></td>
+                    <td>PRT00124</td>
+                </tr>
+                <tr>
+                    <td>A** P****</td>
+                    <td>Hospital Municipal de Carire</td>
+                    <td><span class="tag tag-consulta">Ortopedia</span></td>
+                    <td>15/05/2025</td>
+                    <td><span class="tag tag-baixa">Baixa</span></td>
+                    <td>PRT00125</td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        &copy; 2025 Prefeitura de Cariré - Todos os direitos reservados
+    </footer>
+
+    <script>
+        function filtrarTabela() {
+            let inputNome = document.getElementById("filtroNome").value.toUpperCase();
+            let filtroUnidade = document.getElementById("filtroUnidade").value.toUpperCase();
+            let tabela = document.getElementById("tabelaPacientes");
+            let tr = tabela.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let tdNome = tr[i].getElementsByTagName("td")[0];
+                let tdUnidade = tr[i].getElementsByTagName("td")[1];
+
+                if (tdNome && tdUnidade) {
+                    let txtNome = tdNome.textContent || tdNome.innerText;
+                    let txtUnidade = tdUnidade.textContent || tdUnidade.innerText;
+
+                    let condNome = txtNome.toUpperCase().indexOf(inputNome) > -1;
+                    let condUnidade = filtroUnidade === "" || txtUnidade.toUpperCase() === filtroUnidade;
+
+                    tr[i].style.display = condNome && condUnidade ? "" : "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
