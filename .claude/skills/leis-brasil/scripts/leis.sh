@@ -59,7 +59,8 @@ ler() {
   [ $# -eq 1 ] || die "informe um caminho"
   local p="${1#/}"
   if [ -f "$DIR/$p" ]; then cat "$DIR/$p"; return; fi
-  curl -sSfL "$RAW/$p" || die "não consegui baixar $p"
+  # rc 23 = saída fechada pelo leitor (ex.: | head); não é erro de download.
+  curl -sfL "$RAW/$p" || { rc=$?; [ "$rc" -eq 23 ] || die "não consegui baixar $p (curl $rc)"; }
 }
 
 baixar() {
