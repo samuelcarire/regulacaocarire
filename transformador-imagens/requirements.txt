@@ -1,0 +1,8 @@
+# Instale o PyTorch antes, conforme sua placa: https://pytorch.org/get-started/locally/
+torch
+diffusers>=0.30
+transformers>=4.44
+accelerate>=0.33
+gradio>=4.44
+numpy
+Pillow
